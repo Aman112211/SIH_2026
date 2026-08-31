@@ -85,9 +85,11 @@ def interventions_api():
 def demo():
     return render_template("demo.html")
 
-
-@main.post("/demo/reset")
+@main.route("/demo/reset", methods=["GET", "POST"])
 def demo_reset():
     from .data.seed import seed_demo_data
     seed_demo_data(reset=True)
+    if request.method == "GET":
+        next_page = request.args.get("next", url_for("main.product_detail", product_id=1))
+        return redirect(next_page)
     return jsonify({"status": "reset", "message": "Demo dataset restored"})
