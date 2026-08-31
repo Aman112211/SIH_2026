@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: karigar-ai
+    env: python
+    buildCommand: "pip install -r requirements.txt && python seed.py"
+    startCommand: "gunicorn 'app:create_app()'"
+    envVars:
+      - key: DEMO_MODE
+        value: "true"
+      - key: SECRET_KEY
+        generateValue: true
